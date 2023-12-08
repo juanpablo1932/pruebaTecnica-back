@@ -12,7 +12,7 @@ export class UsersController {
   async create(@Body() createUserDto: CreateUserDto): Promise<ApiResponse> {
     const user = await this.usersService.create(createUserDto);
     return {
-      message: success.OK,
+      message: success.REGISTER,
       statusCode: 201,
       data: [user],
     };

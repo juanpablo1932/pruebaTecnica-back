@@ -31,6 +31,9 @@ export class User {
   @JoinColumn({ name: 'rol_id' })
   rol: Rols;
 
+  @Column()
+  rol_id: number;
+
   @Column({ default: false })
   is_deleted: boolean;
 

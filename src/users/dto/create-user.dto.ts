@@ -33,3 +33,9 @@ export class CreateUserDto {
   })
   phone: string;
 }
+
+export class CreateResponseDto {
+  email: string;
+  full_name: string;
+  phone: string;
+}
