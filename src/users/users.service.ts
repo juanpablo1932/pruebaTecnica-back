@@ -9,7 +9,6 @@ import { CreateResponseDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-// import { Rols } from './entities/rols.entity';
 import { errors, success } from '../utils/constants/global.constants';
 import { UpdateUserDto, UpdateUsers } from './dto/update-user.dto';
 import { RolsService } from './rols.service';
@@ -35,7 +34,7 @@ export class UsersService {
     user.password = await bcrypt.hash(createUserDto.password, 10);
     user.phone = createUserDto.phone;
     user.is_deleted = false;
-    user.rol_id = 4;
+    user.rol = await this.rolsService.getRolById(4);
 
     const savedUser = await this.userRepository.save(user);
 

@@ -16,7 +16,7 @@ export class Rols {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: false })
   is_deleted: boolean;
 
   @CreateDateColumn()

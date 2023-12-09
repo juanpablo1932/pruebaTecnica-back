@@ -12,4 +12,6 @@ export enum success {
   REGISTER = 'Usuario registrado exitosamente',
   LOGIN = 'Usuario logueado exitosamente',
   USER_UPDATED = 'Usuario actualizado exitosamente',
+  ROL_CREATED = 'Rol creado exitosamente',
+  ROL_UPDATED = 'Rol actualizado exitosamente',
 }
