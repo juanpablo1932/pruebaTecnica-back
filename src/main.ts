@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   const options = new DocumentBuilder()
     .setTitle(`inlaze Backend`)
-    .setDescription('Backend for inlaze')
+    .setDescription('Backend for inlaze, by Juan Pablo Díaz Echeverry')
     .setVersion('1.0')
     .addTag('users')
     .addTag('auth')
