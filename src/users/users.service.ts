@@ -4,7 +4,7 @@ import { CreateResponseDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Rols } from './entities/rols.entity';
+// import { Rols } from './entities/rols.entity';
 import { errors } from '../utils/constants/global.constants';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Rols)
-    private readonly rolsRepository: Repository<Rols>,
+    // @InjectRepository(Rols)
+    // private readonly rolsRepository: Repository<Rols>,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<CreateResponseDto> {
     const existingUser = await this.userRepository.findOne({
@@ -39,5 +39,17 @@ export class UsersService {
     userResponse.phone = savedUser.phone;
 
     return userResponse;
+  }
+
+  public async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { email },
+    });
+  }
+
+  public async getUserById(id: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { id },
+    });
   }
 }

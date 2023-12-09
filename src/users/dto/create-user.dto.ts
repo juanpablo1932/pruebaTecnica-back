@@ -1,15 +1,15 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class CreateUserDto {
+  @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
-  @Matches(/^[a-zA-Z0-9_.+-]+@(fsfb)\.org\.co$/g, {
-    message: 'Dominio de correo electrónico inválido',
-  })
   @Transform(({ value }) => value?.toLowerCase())
   email: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Matches(/^([a-zA-Z ]|[à-ú]|[À-Ú])+$/g, {
@@ -18,6 +18,7 @@ export class CreateUserDto {
   @Transform(({ value }) => value?.toLowerCase())
   full_name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
@@ -26,6 +27,7 @@ export class CreateUserDto {
   })
   password: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Matches(/^[0-9]{10}$/, {

@@ -1,10 +1,10 @@
-export class ApiResponse {
+export class ApiResp {
   statusCode: number;
   message: string;
   data?: object[];
 }
 
-export class ApiResponseError extends ApiResponse {
+export class ApiResponseError extends ApiResp {
   error: string;
   timestamp: string;
 }

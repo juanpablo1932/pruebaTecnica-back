@@ -15,7 +15,7 @@ export class User {
   @Generated('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
