@@ -1,73 +1,96 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Descripción
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Prueba tecnica de backend para Inlaze.
+Comprende CRUD de usuarios y roles, más servicio de autenticación.
+No se abordaron pruebas unitarias por motivos de tiempo.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- app.listen(3000)
 
-## Description
+## Anexar variables de entorno
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Editar el nombre del archivo **.env.example** por **.env**
+- Agregar los valores a las variables de entorno en el archivo **.env**. Estos valores se encuentran en el archivo **credenciales.txt** que se envía por correo electronico mediante respuesta al e-mail de la prueba tecnica enviada por Inlaze.
 
-## Installation
+## Inicio Docker
+
+Ir a la raiz del proyecto por consola y ejecutar los siguientes comandos
 
 ```bash
-$ npm install
+$ npm i
+$ docker-compose up -d
 ```
 
-## Running the app
+Luego de iniciar el contenedor ejecutamos el siguiente comando
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker-compose ps
 ```
 
-## Test
+copiamos el valor del parametro **NAME**
+
+## Docker Compose
+
+Abrimos el archivo **docker-compose.yml**.
+Justo debajo de:
+
+```yaml
+ports:
+  - ${PORT}
+```
+
+Pondremos lo siguiente y reemplazaremos el valor del parametro **NAME**:
+
+```yaml
+app:
+  image: valor-del-parametro-NAME
+  restart: always
+  ports:
+    - 3000:3000
+  depends_on:
+    - db
+```
+
+Tendríamos al final algo similar a esto:
+
+```yaml
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${PORT}
+  app:
+    image: inlaze-back-db-1
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+```
+
+## Migraciones TypeORM
+
+En la ruta **/src** encontraremos una carpeta llamada **migrations**, esta contiene el archivo de migraciones que se encargara de crear las tablas **usuarios** y **roles**, además, poblará con algunos datos iniciales a la tabla **roles**
+
+Para realizar la migración ejecutaremos el siguiente comando
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ npm run typeorm:migration:run
 ```
 
-## Support
+## Correr app
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+$ npm start
+```
 
-## Stay in touch
+## Documentación y prueba de endpoints
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Swagger - [Documentación](http://localhost:3000/docs#/)
+- Para poder consumir los servicios se debe en primer lugar hacer un proceso de registro por medio del endpoint **/users/register**
+- Luego de estar registrados debemos hacer el proceso de login por medio del endpoint **/auth/login** . Esto con el fin de poder obtener el Token JWT y autorizar el Swagger para el correcto funcionamiento de los demás endpoints.
+- Por ultimo, se podrá disponer del resto de endpoints los cuales se encuentran protegidos por el **jwt** , estos servicios comprenden el CRUD de usuarios y roles.
