@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private jwtService: JwtService) {}
 
   async login(user: User) {
-    const payload: JWTPayload = { username: user.email, id: user.id };
+    const payload: JWTPayload = { email: user.email, id: user.id };
     const { access_token } = await this.getTokens(payload);
     return {
       message: success.LOGIN,

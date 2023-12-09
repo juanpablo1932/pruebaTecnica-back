@@ -10,6 +10,7 @@ No se abordaron pruebas unitarias por motivos de tiempo.
 
 - Editar el nombre del archivo **.env.example** por **.env**
 - Agregar los valores a las variables de entorno en el archivo **.env**. Estos valores se encuentran en el archivo **credenciales.txt** que se envía por correo electronico mediante respuesta al e-mail de la prueba tecnica enviada por Inlaze.
+- Por un problema con el **process.env** en el archivo de **orm.config.ts** no se pudieron dejar puestas las variables de entorno, por ende, se deben poner las credenciales de la DB (host, username y password) directamente en el archivo **orm.config.ts**
 
 ## Inicio Docker
 
