@@ -1,6 +1,6 @@
 ## Descripción
 
-Prueba tecnica de backend para Inlaze.
+Prueba tecnica de backend.
 Comprende CRUD de usuarios y roles, más servicio de autenticación.
 No se abordaron pruebas unitarias por motivos de tiempo.
 
